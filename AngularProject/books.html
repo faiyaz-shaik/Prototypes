@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html ng-app="modangulartest">
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/AngualrTest.js"></script>
+    <script src="Scripts/booksController.js"></script>
+    <script src="Scripts/localBooksService.js"></script>
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body ng-controller="booksController">
+    {{message}}
+    <h4 ng-controller="booksController as booksCtrl">{{booksCtrl.greeting}}</h4>
+    <input type="button" ng-click="fetchBooks()" class="btn-primary" value="Fetch Books" />
+
+    <table class="table table-striped">
+        <thead>  
+            <tr><td>ID</td><td>Book Name</td><td>Author Name</td><td>ISBN</td></tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="book in books">
+                <td>{{book.ID}}</td><td>{{book.BookName}}</td><td>{{book.AuthorName}}</td><td>{{book.ISBN}}</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</body>
+</html>
