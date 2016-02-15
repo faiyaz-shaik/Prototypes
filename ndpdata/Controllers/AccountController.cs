@@ -20,7 +20,7 @@ using ndpdata.Models.DataClasses;
 
 namespace ndpdata.Controllers
 {
-    [Authorize]
+   
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -67,13 +67,24 @@ namespace ndpdata.Controllers
             };
         }
 
-        public IEnumerable<User> Users()
+        [HttpGet]
+       
+        public List<User> Users()
         {
             ndpdata.Models.DataClasses.DataService ds = new DataService();
 
+            return ds.Users();
 
         }
 
+
+        public void AddUser(User user)
+        {
+            ndpdata.Models.DataClasses.DataService ds = new DataService();
+            ds.AddUser(user);
+
+
+        }
 
 
 

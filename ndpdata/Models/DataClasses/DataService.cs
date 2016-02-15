@@ -8,9 +8,9 @@ namespace ndpdata.Models.DataClasses
     public class DataService
     {
 
-        private ICollection<User> _users;
+        private List<User> _users = new List<User>();
 
-        DataService()
+        public DataService()
         {
             _users.Add(new User {
                 Id = 1, Name = "Faiyaz Shaik"
@@ -31,11 +31,17 @@ namespace ndpdata.Models.DataClasses
         }
 
 
-        public IEnumerable<User> Users() {
+        public List<User> Users() {
 
 
             return _users;
 
         }
+
+        public void AddUser(User user)
+        {
+            _users.Add(user);
+        }
+
     }
 }

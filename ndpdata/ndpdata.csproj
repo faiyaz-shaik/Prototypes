@@ -214,9 +214,11 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataClasses\DataService.cs" />
+    <Compile Include="Models\DataClasses\Node.cs" />
     <Compile Include="Models\DataClasses\Role.cs" />
     <Compile Include="Models\DataClasses\User.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
