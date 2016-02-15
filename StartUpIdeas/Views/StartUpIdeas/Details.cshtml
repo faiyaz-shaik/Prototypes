@@ -1,0 +1,31 @@
+﻿@model StartUpIdeas.DAL.StartUpIdea
+   @{
+       ViewBag.Title = "Project Details";
+       Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Project Details</h2>
+
+<div>
+    <table id="projects-list" class="table">
+       
+
+            <tr>
+                <td>
+                    <h3>
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+
+                        @Model.ProjectName
+                    </h3>
+
+
+                    <p>@Html.Raw(@Model.ProjectDescription) </p>
+                    <p>Submitted By:  @Model.FirstName @Model.LastName at @Model.SubmitedDateTime</p>
+                </td>
+
+            </tr>
+
+        
+    </table>
+
+</div>
