@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1f30a0c0235d4cafa6c2d8c94069507d" Name="Diagram1">
+        <EntityTypeShape EntityType="StartUpIdeasModel.StartUpIdea" Width="2.125" PointX="2.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StartUpIdeasModel.sysdiagram" Width="1.5" PointX="0.5" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StartUpIdeasModel.AspNetRole" Width="3.125" PointX="0.625" PointY="5" />
+        <EntityTypeShape EntityType="StartUpIdeasModel.AspNetUserClaim" Width="3" PointX="7.125" PointY="2.25" />
+        <EntityTypeShape EntityType="StartUpIdeasModel.AspNetUserLogin" Width="2.75" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="StartUpIdeasModel.AspNetUser" Width="1.5" PointX="5.125" PointY="3.125" />
+        <EntityTypeShape EntityType="StartUpIdeasModel.AspNetUsersExt" Width="1.5" PointX="7.625" PointY="6.75" />
+        <AssociationConnector Association="StartUpIdeasModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="StartUpIdeasModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="StartUpIdeasModel.FK_AspNetUserExt_AspNetUsers" />
+        <AssociationConnector Association="StartUpIdeasModel.AspNetUserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

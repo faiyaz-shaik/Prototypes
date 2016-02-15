@@ -1,0 +1,1623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BlobResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" />
+          <Property Name="FileUrl" Type="nvarchar(max)" />
+          <Property Name="FileSizeInBytes" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContentResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="LogoImageResourceId" Type="int" />
+          <Property Name="HideLogo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CurriculumResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Directorate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InTrash" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="DocumentResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Author" Type="nvarchar" MaxLength="250" />
+          <Property Name="AuthorOrganisation" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="EventResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImageResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Width" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Keyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InTrash" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="MarkdownResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="250" />
+          <Property Name="Markdown" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ProjectResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceKeyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VleResourceId" Type="int" Nullable="false" />
+          <Property Name="KeywordId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="RelationId" Type="int" Nullable="false" />
+          <Property Name="RelationType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourceTaxonomy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VleResourceId" Type="int" Nullable="false" />
+          <Property Name="TaxonomyId" Type="int" Nullable="false" />
+          <Property Name="TaxonomyFieldType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScormResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="FolderName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VleResourceId" Type="int" Nullable="false" />
+          <Property Name="ResourceStatus" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="User" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VideoResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VleResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="OwnerId" Type="int" />
+          <Property Name="FeaturedImageKey" Type="nvarchar" MaxLength="250" />
+          <Property Name="Organisation" Type="nvarchar" MaxLength="250" />
+          <Property Name="DisplayOrder" Type="int" />
+          <Property Name="ContentTypeId" Type="int" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InTrash" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="IsFeatured" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VleResourceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SortOrder" Type="int" />
+          <Property Name="GlyphIcon" Type="nvarchar(max)" />
+          <Property Name="ContentTypeId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InTrash" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="LastModifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="WebResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Url" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.ContentContainerMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ContentContainerMetaView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="KeyType" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="32" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="FeaturedImageKey" Type="nvarchar" MaxLength="250" />
+          <Property Name="KeyType" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.DocumentResourceMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DocumentResourceMetaView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="KeyType" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="32" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="FeaturedImageKey" Type="nvarchar" MaxLength="250" />
+          <Property Name="KeyType" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.PageContainerMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PageContainerMetaView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="KeyType" />
+          </Key>
+          <Property Name="Code" Type="nvarchar" MaxLength="32" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="FeaturedImageKey" Type="nvarchar" MaxLength="250" />
+          <Property Name="KeyType" Type="varchar" MaxLength="13" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="start_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="end_ip_address" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="create_date" Type="datetime" Nullable="false" />
+          <Property Name="modify_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_BlobResource_dbo_DocumentResource_Id">
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="1" />
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId">
+          <End Role="ImageResource" Type="Self.ImageResource" Multiplicity="0..1" />
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContentResource">
+              <PropertyRef Name="LogoImageResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContentResource_dbo_VleResource_Id">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CurriculumResource_dbo_ContentResource_Id">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="1" />
+          <End Role="CurriculumResource" Type="Self.CurriculumResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurriculumResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_DocumentResource_dbo_VleResource_Id">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_EventResource_dbo_ContentResource_Id">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="1" />
+          <End Role="EventResource" Type="Self.EventResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ImageResource_dbo_BlobResource_Id">
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="1" />
+          <End Role="ImageResource" Type="Self.ImageResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImageResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MarkdownResource_dbo_DocumentResource_Id">
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="1" />
+          <End Role="MarkdownResource" Type="Self.MarkdownResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MarkdownResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProjectResource_dbo_ContentResource_Id">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="1" />
+          <End Role="ProjectResource" Type="Self.ProjectResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceKeyword" Type="Self.ResourceKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Keyword">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceKeyword">
+              <PropertyRef Name="KeywordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceKeyword" Type="Self.ResourceKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceKeyword">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceRelation" Type="Self.ResourceRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRelation">
+              <PropertyRef Name="RelationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
+          <End Role="ResourceRelation" Type="Self.ResourceRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRelation">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceTaxonomy" Type="Self.ResourceTaxonomy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceTaxonomy">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ScormResource_dbo_BlobResource_Id">
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="1" />
+          <End Role="ScormResource" Type="Self.ScormResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScormResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Status_dbo_VleResource_VleResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Status" Type="Self.Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Status">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VideoResource_dbo_BlobResource_Id">
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="1" />
+          <End Role="VideoResource" Type="Self.VideoResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VideoResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VleResource_dbo_ContentResource_ParentId">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="0..1" />
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
+          <End Role="VleResourceType" Type="Self.VleResourceType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResourceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="ContentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VleResource_dbo_Directorate_OwnerId">
+          <End Role="Directorate" Type="Self.Directorate" Multiplicity="0..1" />
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Directorate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_WebResource_dbo_DocumentResource_Id">
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="1" />
+          <End Role="WebResource" Type="Self.WebResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WebResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BlobResource" EntityType="Self.BlobResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContentResource" EntityType="Self.ContentResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurriculumResource" EntityType="Self.CurriculumResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Directorate" EntityType="Self.Directorate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentResource" EntityType="Self.DocumentResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventResource" EntityType="Self.EventResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImageResource" EntityType="Self.ImageResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Keyword" EntityType="Self.Keyword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarkdownResource" EntityType="Self.MarkdownResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectResource" EntityType="Self.ProjectResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceKeyword" EntityType="Self.ResourceKeyword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceRelation" EntityType="Self.ResourceRelation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceTaxonomy" EntityType="Self.ResourceTaxonomy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScormResource" EntityType="Self.ScormResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VideoResource" EntityType="Self.VideoResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VleResource" EntityType="Self.VleResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VleResourceType" EntityType="Self.VleResourceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WebResource" EntityType="Self.WebResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContentContainerMetaView" EntityType="Self.ContentContainerMetaView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ContentContainerMetaView].[Code] AS [Code], 
+    [ContentContainerMetaView].[Id] AS [Id], 
+    [ContentContainerMetaView].[Title] AS [Title], 
+    [ContentContainerMetaView].[Description] AS [Description], 
+    [ContentContainerMetaView].[FeaturedImageKey] AS [FeaturedImageKey], 
+    [ContentContainerMetaView].[KeyType] AS [KeyType]
+    FROM [dbo].[ContentContainerMetaView] AS [ContentContainerMetaView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DocumentResourceMetaView" EntityType="Self.DocumentResourceMetaView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DocumentResourceMetaView].[Code] AS [Code], 
+    [DocumentResourceMetaView].[Id] AS [Id], 
+    [DocumentResourceMetaView].[Title] AS [Title], 
+    [DocumentResourceMetaView].[Description] AS [Description], 
+    [DocumentResourceMetaView].[FeaturedImageKey] AS [FeaturedImageKey], 
+    [DocumentResourceMetaView].[KeyType] AS [KeyType]
+    FROM [dbo].[DocumentResourceMetaView] AS [DocumentResourceMetaView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PageContainerMetaView" EntityType="Self.PageContainerMetaView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PageContainerMetaView].[Code] AS [Code], 
+    [PageContainerMetaView].[Id] AS [Id], 
+    [PageContainerMetaView].[Title] AS [Title], 
+    [PageContainerMetaView].[Description] AS [Description], 
+    [PageContainerMetaView].[FeaturedImageKey] AS [FeaturedImageKey], 
+    [PageContainerMetaView].[KeyType] AS [KeyType]
+    FROM [dbo].[PageContainerMetaView] AS [PageContainerMetaView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" store:Type="Views" store:Schema="sys">
+            <DefiningQuery>SELECT 
+    [database_firewall_rules].[id] AS [id], 
+    [database_firewall_rules].[name] AS [name], 
+    [database_firewall_rules].[start_ip_address] AS [start_ip_address], 
+    [database_firewall_rules].[end_ip_address] AS [end_ip_address], 
+    [database_firewall_rules].[create_date] AS [create_date], 
+    [database_firewall_rules].[modify_date] AS [modify_date]
+    FROM [sys].[database_firewall_rules] AS [database_firewall_rules]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_dbo_BlobResource_dbo_DocumentResource_Id" Association="Self.FK_dbo_BlobResource_dbo_DocumentResource_Id">
+            <End Role="DocumentResource" EntitySet="DocumentResource" />
+            <End Role="BlobResource" EntitySet="BlobResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId" Association="Self.FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId">
+            <End Role="ImageResource" EntitySet="ImageResource" />
+            <End Role="ContentResource" EntitySet="ContentResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContentResource_dbo_VleResource_Id" Association="Self.FK_dbo_ContentResource_dbo_VleResource_Id">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="ContentResource" EntitySet="ContentResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CurriculumResource_dbo_ContentResource_Id" Association="Self.FK_dbo_CurriculumResource_dbo_ContentResource_Id">
+            <End Role="ContentResource" EntitySet="ContentResource" />
+            <End Role="CurriculumResource" EntitySet="CurriculumResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_DocumentResource_dbo_VleResource_Id" Association="Self.FK_dbo_DocumentResource_dbo_VleResource_Id">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="DocumentResource" EntitySet="DocumentResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_EventResource_dbo_ContentResource_Id" Association="Self.FK_dbo_EventResource_dbo_ContentResource_Id">
+            <End Role="ContentResource" EntitySet="ContentResource" />
+            <End Role="EventResource" EntitySet="EventResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ImageResource_dbo_BlobResource_Id" Association="Self.FK_dbo_ImageResource_dbo_BlobResource_Id">
+            <End Role="BlobResource" EntitySet="BlobResource" />
+            <End Role="ImageResource" EntitySet="ImageResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MarkdownResource_dbo_DocumentResource_Id" Association="Self.FK_dbo_MarkdownResource_dbo_DocumentResource_Id">
+            <End Role="DocumentResource" EntitySet="DocumentResource" />
+            <End Role="MarkdownResource" EntitySet="MarkdownResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProjectResource_dbo_ContentResource_Id" Association="Self.FK_dbo_ProjectResource_dbo_ContentResource_Id">
+            <End Role="ContentResource" EntitySet="ContentResource" />
+            <End Role="ProjectResource" EntitySet="ProjectResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" Association="Self.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
+            <End Role="Keyword" EntitySet="Keyword" />
+            <End Role="ResourceKeyword" EntitySet="ResourceKeyword" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="ResourceKeyword" EntitySet="ResourceKeyword" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId" Association="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="ResourceRelation" EntitySet="ResourceRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" Association="Self.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="ResourceRelation" EntitySet="ResourceRelation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="ResourceTaxonomy" EntitySet="ResourceTaxonomy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ScormResource_dbo_BlobResource_Id" Association="Self.FK_dbo_ScormResource_dbo_BlobResource_Id">
+            <End Role="BlobResource" EntitySet="BlobResource" />
+            <End Role="ScormResource" EntitySet="ScormResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Status_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_Status_dbo_VleResource_VleResourceId">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="Status" EntitySet="Status" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VideoResource_dbo_BlobResource_Id" Association="Self.FK_dbo_VideoResource_dbo_BlobResource_Id">
+            <End Role="BlobResource" EntitySet="BlobResource" />
+            <End Role="VideoResource" EntitySet="VideoResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentResource_ParentId" Association="Self.FK_dbo_VleResource_dbo_ContentResource_ParentId">
+            <End Role="ContentResource" EntitySet="ContentResource" />
+            <End Role="VleResource" EntitySet="VleResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId" Association="Self.FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
+            <End Role="VleResourceType" EntitySet="VleResourceType" />
+            <End Role="VleResource" EntitySet="VleResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VleResource_dbo_Directorate_OwnerId" Association="Self.FK_dbo_VleResource_dbo_Directorate_OwnerId">
+            <End Role="Directorate" EntitySet="Directorate" />
+            <End Role="VleResource" EntitySet="VleResource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_WebResource_dbo_DocumentResource_Id" Association="Self.FK_dbo_WebResource_dbo_DocumentResource_Id">
+            <End Role="DocumentResource" EntitySet="DocumentResource" />
+            <End Role="WebResource" EntitySet="WebResource" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BlobResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileSizeInBytes" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="DocumentResource" Relationship="Self.FK_dbo_BlobResource_dbo_DocumentResource_Id" FromRole="BlobResource" ToRole="DocumentResource" />
+          <NavigationProperty Name="ImageResource" Relationship="Self.FK_dbo_ImageResource_dbo_BlobResource_Id" FromRole="BlobResource" ToRole="ImageResource" />
+          <NavigationProperty Name="ScormResource" Relationship="Self.FK_dbo_ScormResource_dbo_BlobResource_Id" FromRole="BlobResource" ToRole="ScormResource" />
+          <NavigationProperty Name="VideoResource" Relationship="Self.FK_dbo_VideoResource_dbo_BlobResource_Id" FromRole="BlobResource" ToRole="VideoResource" />
+        </EntityType>
+        <EntityType Name="ContentResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LogoImageResourceId" Type="Int32" />
+          <Property Name="HideLogo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ImageResource" Relationship="Self.FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId" FromRole="ContentResource" ToRole="ImageResource" />
+          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ContentResource_dbo_VleResource_Id" FromRole="ContentResource" ToRole="VleResource" />
+          <NavigationProperty Name="CurriculumResource" Relationship="Self.FK_dbo_CurriculumResource_dbo_ContentResource_Id" FromRole="ContentResource" ToRole="CurriculumResource" />
+          <NavigationProperty Name="EventResource" Relationship="Self.FK_dbo_EventResource_dbo_ContentResource_Id" FromRole="ContentResource" ToRole="EventResource" />
+          <NavigationProperty Name="ProjectResource" Relationship="Self.FK_dbo_ProjectResource_dbo_ContentResource_Id" FromRole="ContentResource" ToRole="ProjectResource" />
+          <NavigationProperty Name="VleResources" Relationship="Self.FK_dbo_VleResource_dbo_ContentResource_ParentId" FromRole="ContentResource" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="CurriculumResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ContentResource" Relationship="Self.FK_dbo_CurriculumResource_dbo_ContentResource_Id" FromRole="CurriculumResource" ToRole="ContentResource" />
+        </EntityType>
+        <EntityType Name="Directorate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <NavigationProperty Name="VleResources" Relationship="Self.FK_dbo_VleResource_dbo_Directorate_OwnerId" FromRole="Directorate" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="DocumentResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Author" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorOrganisation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_BlobResource_dbo_DocumentResource_Id" FromRole="DocumentResource" ToRole="BlobResource" />
+          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_DocumentResource_dbo_VleResource_Id" FromRole="DocumentResource" ToRole="VleResource" />
+          <NavigationProperty Name="MarkdownResource" Relationship="Self.FK_dbo_MarkdownResource_dbo_DocumentResource_Id" FromRole="DocumentResource" ToRole="MarkdownResource" />
+          <NavigationProperty Name="WebResource" Relationship="Self.FK_dbo_WebResource_dbo_DocumentResource_Id" FromRole="DocumentResource" ToRole="WebResource" />
+        </EntityType>
+        <EntityType Name="EventResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ContentResource" Relationship="Self.FK_dbo_EventResource_dbo_ContentResource_Id" FromRole="EventResource" ToRole="ContentResource" />
+        </EntityType>
+        <EntityType Name="ImageResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Width" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_ImageResource_dbo_BlobResource_Id" FromRole="ImageResource" ToRole="BlobResource" />
+          <NavigationProperty Name="ContentResources" Relationship="Self.FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId" FromRole="ImageResource" ToRole="ContentResource" />
+        </EntityType>
+        <EntityType Name="Keyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <NavigationProperty Name="ResourceKeywords" Relationship="Self.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" FromRole="Keyword" ToRole="ResourceKeyword" />
+        </EntityType>
+        <EntityType Name="MarkdownResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Markdown" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DocumentResource" Relationship="Self.FK_dbo_MarkdownResource_dbo_DocumentResource_Id" FromRole="MarkdownResource" ToRole="DocumentResource" />
+        </EntityType>
+        <EntityType Name="ProjectResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ContentResource" Relationship="Self.FK_dbo_ProjectResource_dbo_ContentResource_Id" FromRole="ProjectResource" ToRole="ContentResource" />
+        </EntityType>
+        <EntityType Name="ResourceKeyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VleResourceId" Type="Int32" Nullable="false" />
+          <Property Name="KeywordId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Keyword" Relationship="Self.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" FromRole="ResourceKeyword" ToRole="Keyword" />
+          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" FromRole="ResourceKeyword" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="ResourceRelation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="RelationId" Type="Int32" Nullable="false" />
+          <Property Name="RelationType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId" FromRole="ResourceRelation" ToRole="VleResource" />
+          <NavigationProperty Name="VleResource1" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" FromRole="ResourceRelation" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="ResourceTaxonomy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VleResourceId" Type="Int32" Nullable="false" />
+          <Property Name="TaxonomyId" Type="Int32" Nullable="false" />
+          <Property Name="TaxonomyFieldType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" FromRole="ResourceTaxonomy" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="ScormResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="FolderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_ScormResource_dbo_BlobResource_Id" FromRole="ScormResource" ToRole="BlobResource" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VleResourceId" Type="Int32" Nullable="false" />
+          <Property Name="ResourceStatus" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="User" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_Status_dbo_VleResource_VleResourceId" FromRole="Status" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="VideoResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_VideoResource_dbo_BlobResource_Id" FromRole="VideoResource" ToRole="BlobResource" />
+        </EntityType>
+        <EntityType Name="VleResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="FeaturedImageKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" />
+          <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <Property Name="IsFeatured" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ContentResource" Relationship="Self.FK_dbo_ContentResource_dbo_VleResource_Id" FromRole="VleResource" ToRole="ContentResource" />
+          <NavigationProperty Name="ContentResource1" Relationship="Self.FK_dbo_VleResource_dbo_ContentResource_ParentId" FromRole="VleResource" ToRole="ContentResource" />
+          <NavigationProperty Name="Directorate" Relationship="Self.FK_dbo_VleResource_dbo_Directorate_OwnerId" FromRole="VleResource" ToRole="Directorate" />
+          <NavigationProperty Name="DocumentResource" Relationship="Self.FK_dbo_DocumentResource_dbo_VleResource_Id" FromRole="VleResource" ToRole="DocumentResource" />
+          <NavigationProperty Name="ResourceKeywords" Relationship="Self.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="ResourceKeyword" />
+          <NavigationProperty Name="ResourceRelations" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId" FromRole="VleResource" ToRole="ResourceRelation" />
+          <NavigationProperty Name="ResourceRelations1" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" FromRole="VleResource" ToRole="ResourceRelation" />
+          <NavigationProperty Name="ResourceTaxonomies" Relationship="Self.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="ResourceTaxonomy" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_dbo_Status_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="Status" />
+          <NavigationProperty Name="VleResourceType" Relationship="Self.FK_dbo_VleResource_dbo_ContentType_ContentTypeId" FromRole="VleResource" ToRole="VleResourceType" />
+        </EntityType>
+        <EntityType Name="VleResourceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="GlyphIcon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedBy" Type="Int32" />
+          <NavigationProperty Name="VleResources" Relationship="Self.FK_dbo_VleResource_dbo_ContentType_ContentTypeId" FromRole="VleResourceType" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="WebResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DocumentResource" Relationship="Self.FK_dbo_WebResource_dbo_DocumentResource_Id" FromRole="WebResource" ToRole="DocumentResource" />
+        </EntityType>
+        <EntityType Name="ContentContainerMetaView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="KeyType" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FeaturedImageKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="KeyType" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentResourceMetaView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="KeyType" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FeaturedImageKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="KeyType" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PageContainerMetaView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="KeyType" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FeaturedImageKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="KeyType" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="database_firewall_rules">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="start_ip_address" />
+            <PropertyRef Name="end_ip_address" />
+            <PropertyRef Name="create_date" />
+            <PropertyRef Name="modify_date" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="start_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="end_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_dbo_BlobResource_dbo_DocumentResource_Id">
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="1" />
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ImageResource_dbo_BlobResource_Id">
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="1" />
+          <End Role="ImageResource" Type="Self.ImageResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImageResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ScormResource_dbo_BlobResource_Id">
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="1" />
+          <End Role="ScormResource" Type="Self.ScormResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScormResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VideoResource_dbo_BlobResource_Id">
+          <End Role="BlobResource" Type="Self.BlobResource" Multiplicity="1" />
+          <End Role="VideoResource" Type="Self.VideoResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlobResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VideoResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId">
+          <End Role="ImageResource" Type="Self.ImageResource" Multiplicity="0..1" />
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContentResource">
+              <PropertyRef Name="LogoImageResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ContentResource_dbo_VleResource_Id">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CurriculumResource_dbo_ContentResource_Id">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="1" />
+          <End Role="CurriculumResource" Type="Self.CurriculumResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CurriculumResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_EventResource_dbo_ContentResource_Id">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="1" />
+          <End Role="EventResource" Type="Self.EventResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProjectResource_dbo_ContentResource_Id">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="1" />
+          <End Role="ProjectResource" Type="Self.ProjectResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProjectResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VleResource_dbo_ContentResource_ParentId">
+          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="0..1" />
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VleResource_dbo_Directorate_OwnerId">
+          <End Role="Directorate" Type="Self.Directorate" Multiplicity="0..1" />
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Directorate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_DocumentResource_dbo_VleResource_Id">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MarkdownResource_dbo_DocumentResource_Id">
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="1" />
+          <End Role="MarkdownResource" Type="Self.MarkdownResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MarkdownResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_WebResource_dbo_DocumentResource_Id">
+          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="1" />
+          <End Role="WebResource" Type="Self.WebResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WebResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
+          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceKeyword" Type="Self.ResourceKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Keyword">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceKeyword">
+              <PropertyRef Name="KeywordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceKeyword" Type="Self.ResourceKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceKeyword">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceRelation" Type="Self.ResourceRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRelation">
+              <PropertyRef Name="RelationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
+          <End Role="ResourceRelation" Type="Self.ResourceRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRelation">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourceTaxonomy" Type="Self.ResourceTaxonomy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceTaxonomy">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Status_dbo_VleResource_VleResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Status" Type="Self.Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Status">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
+          <End Role="VleResourceType" Type="Self.VleResourceType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResourceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="ContentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="BlobResources" EntityType="Self.BlobResource" />
+          <EntitySet Name="ContentResources" EntityType="Self.ContentResource" />
+          <EntitySet Name="CurriculumResources" EntityType="Self.CurriculumResource" />
+          <EntitySet Name="Directorates" EntityType="Self.Directorate" />
+          <EntitySet Name="DocumentResources" EntityType="Self.DocumentResource" />
+          <EntitySet Name="EventResources" EntityType="Self.EventResource" />
+          <EntitySet Name="ImageResources" EntityType="Self.ImageResource" />
+          <EntitySet Name="Keywords" EntityType="Self.Keyword" />
+          <EntitySet Name="MarkdownResources" EntityType="Self.MarkdownResource" />
+          <EntitySet Name="ProjectResources" EntityType="Self.ProjectResource" />
+          <EntitySet Name="ResourceKeywords" EntityType="Self.ResourceKeyword" />
+          <EntitySet Name="ResourceRelations" EntityType="Self.ResourceRelation" />
+          <EntitySet Name="ResourceTaxonomies" EntityType="Self.ResourceTaxonomy" />
+          <EntitySet Name="ScormResources" EntityType="Self.ScormResource" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="VideoResources" EntityType="Self.VideoResource" />
+          <EntitySet Name="VleResources" EntityType="Self.VleResource" />
+          <EntitySet Name="VleResourceTypes" EntityType="Self.VleResourceType" />
+          <EntitySet Name="WebResources" EntityType="Self.WebResource" />
+          <EntitySet Name="ContentContainerMetaViews" EntityType="Self.ContentContainerMetaView" />
+          <EntitySet Name="DocumentResourceMetaViews" EntityType="Self.DocumentResourceMetaView" />
+          <EntitySet Name="PageContainerMetaViews" EntityType="Self.PageContainerMetaView" />
+          <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
+          <AssociationSet Name="FK_dbo_BlobResource_dbo_DocumentResource_Id" Association="Self.FK_dbo_BlobResource_dbo_DocumentResource_Id">
+            <End Role="DocumentResource" EntitySet="DocumentResources" />
+            <End Role="BlobResource" EntitySet="BlobResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ImageResource_dbo_BlobResource_Id" Association="Self.FK_dbo_ImageResource_dbo_BlobResource_Id">
+            <End Role="BlobResource" EntitySet="BlobResources" />
+            <End Role="ImageResource" EntitySet="ImageResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ScormResource_dbo_BlobResource_Id" Association="Self.FK_dbo_ScormResource_dbo_BlobResource_Id">
+            <End Role="BlobResource" EntitySet="BlobResources" />
+            <End Role="ScormResource" EntitySet="ScormResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VideoResource_dbo_BlobResource_Id" Association="Self.FK_dbo_VideoResource_dbo_BlobResource_Id">
+            <End Role="BlobResource" EntitySet="BlobResources" />
+            <End Role="VideoResource" EntitySet="VideoResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId" Association="Self.FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId">
+            <End Role="ImageResource" EntitySet="ImageResources" />
+            <End Role="ContentResource" EntitySet="ContentResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ContentResource_dbo_VleResource_Id" Association="Self.FK_dbo_ContentResource_dbo_VleResource_Id">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="ContentResource" EntitySet="ContentResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CurriculumResource_dbo_ContentResource_Id" Association="Self.FK_dbo_CurriculumResource_dbo_ContentResource_Id">
+            <End Role="ContentResource" EntitySet="ContentResources" />
+            <End Role="CurriculumResource" EntitySet="CurriculumResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_EventResource_dbo_ContentResource_Id" Association="Self.FK_dbo_EventResource_dbo_ContentResource_Id">
+            <End Role="ContentResource" EntitySet="ContentResources" />
+            <End Role="EventResource" EntitySet="EventResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProjectResource_dbo_ContentResource_Id" Association="Self.FK_dbo_ProjectResource_dbo_ContentResource_Id">
+            <End Role="ContentResource" EntitySet="ContentResources" />
+            <End Role="ProjectResource" EntitySet="ProjectResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentResource_ParentId" Association="Self.FK_dbo_VleResource_dbo_ContentResource_ParentId">
+            <End Role="ContentResource" EntitySet="ContentResources" />
+            <End Role="VleResource" EntitySet="VleResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VleResource_dbo_Directorate_OwnerId" Association="Self.FK_dbo_VleResource_dbo_Directorate_OwnerId">
+            <End Role="Directorate" EntitySet="Directorates" />
+            <End Role="VleResource" EntitySet="VleResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_DocumentResource_dbo_VleResource_Id" Association="Self.FK_dbo_DocumentResource_dbo_VleResource_Id">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="DocumentResource" EntitySet="DocumentResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MarkdownResource_dbo_DocumentResource_Id" Association="Self.FK_dbo_MarkdownResource_dbo_DocumentResource_Id">
+            <End Role="DocumentResource" EntitySet="DocumentResources" />
+            <End Role="MarkdownResource" EntitySet="MarkdownResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_WebResource_dbo_DocumentResource_Id" Association="Self.FK_dbo_WebResource_dbo_DocumentResource_Id">
+            <End Role="DocumentResource" EntitySet="DocumentResources" />
+            <End Role="WebResource" EntitySet="WebResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" Association="Self.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
+            <End Role="Keyword" EntitySet="Keywords" />
+            <End Role="ResourceKeyword" EntitySet="ResourceKeywords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="ResourceKeyword" EntitySet="ResourceKeywords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId" Association="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="ResourceRelation" EntitySet="ResourceRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" Association="Self.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="ResourceRelation" EntitySet="ResourceRelations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="ResourceTaxonomy" EntitySet="ResourceTaxonomies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Status_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_Status_dbo_VleResource_VleResourceId">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="Status" EntitySet="Status" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId" Association="Self.FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
+            <End Role="VleResourceType" EntitySet="VleResourceTypes" />
+            <End Role="VleResource" EntitySet="VleResources" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="Model.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlobResources">
+            <EntityTypeMapping TypeName="Model.BlobResource">
+              <MappingFragment StoreEntitySet="BlobResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="FileSizeInBytes" ColumnName="FileSizeInBytes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContentResources">
+            <EntityTypeMapping TypeName="Model.ContentResource">
+              <MappingFragment StoreEntitySet="ContentResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LogoImageResourceId" ColumnName="LogoImageResourceId" />
+                <ScalarProperty Name="HideLogo" ColumnName="HideLogo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurriculumResources">
+            <EntityTypeMapping TypeName="Model.CurriculumResource">
+              <MappingFragment StoreEntitySet="CurriculumResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Directorates">
+            <EntityTypeMapping TypeName="Model.Directorate">
+              <MappingFragment StoreEntitySet="Directorate">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentResources">
+            <EntityTypeMapping TypeName="Model.DocumentResource">
+              <MappingFragment StoreEntitySet="DocumentResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="AuthorOrganisation" ColumnName="AuthorOrganisation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventResources">
+            <EntityTypeMapping TypeName="Model.EventResource">
+              <MappingFragment StoreEntitySet="EventResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImageResources">
+            <EntityTypeMapping TypeName="Model.ImageResource">
+              <MappingFragment StoreEntitySet="ImageResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Keywords">
+            <EntityTypeMapping TypeName="Model.Keyword">
+              <MappingFragment StoreEntitySet="Keyword">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MarkdownResources">
+            <EntityTypeMapping TypeName="Model.MarkdownResource">
+              <MappingFragment StoreEntitySet="MarkdownResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Markdown" ColumnName="Markdown" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectResources">
+            <EntityTypeMapping TypeName="Model.ProjectResource">
+              <MappingFragment StoreEntitySet="ProjectResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceKeywords">
+            <EntityTypeMapping TypeName="Model.ResourceKeyword">
+              <MappingFragment StoreEntitySet="ResourceKeyword">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VleResourceId" ColumnName="VleResourceId" />
+                <ScalarProperty Name="KeywordId" ColumnName="KeywordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceRelations">
+            <EntityTypeMapping TypeName="Model.ResourceRelation">
+              <MappingFragment StoreEntitySet="ResourceRelation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="RelationId" ColumnName="RelationId" />
+                <ScalarProperty Name="RelationType" ColumnName="RelationType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceTaxonomies">
+            <EntityTypeMapping TypeName="Model.ResourceTaxonomy">
+              <MappingFragment StoreEntitySet="ResourceTaxonomy">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VleResourceId" ColumnName="VleResourceId" />
+                <ScalarProperty Name="TaxonomyId" ColumnName="TaxonomyId" />
+                <ScalarProperty Name="TaxonomyFieldType" ColumnName="TaxonomyFieldType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScormResources">
+            <EntityTypeMapping TypeName="Model.ScormResource">
+              <MappingFragment StoreEntitySet="ScormResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FolderName" ColumnName="FolderName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="Model.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VleResourceId" ColumnName="VleResourceId" />
+                <ScalarProperty Name="ResourceStatus" ColumnName="ResourceStatus" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="User" ColumnName="User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VideoResources">
+            <EntityTypeMapping TypeName="Model.VideoResource">
+              <MappingFragment StoreEntitySet="VideoResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VleResources">
+            <EntityTypeMapping TypeName="Model.VleResource">
+              <MappingFragment StoreEntitySet="VleResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="FeaturedImageKey" ColumnName="FeaturedImageKey" />
+                <ScalarProperty Name="Organisation" ColumnName="Organisation" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ContentTypeId" ColumnName="ContentTypeId" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VleResourceTypes">
+            <EntityTypeMapping TypeName="Model.VleResourceType">
+              <MappingFragment StoreEntitySet="VleResourceType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="GlyphIcon" ColumnName="GlyphIcon" />
+                <ScalarProperty Name="ContentTypeId" ColumnName="ContentTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WebResources">
+            <EntityTypeMapping TypeName="Model.WebResource">
+              <MappingFragment StoreEntitySet="WebResource">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContentContainerMetaViews">
+            <EntityTypeMapping TypeName="Model.ContentContainerMetaView">
+              <MappingFragment StoreEntitySet="ContentContainerMetaView">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FeaturedImageKey" ColumnName="FeaturedImageKey" />
+                <ScalarProperty Name="KeyType" ColumnName="KeyType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentResourceMetaViews">
+            <EntityTypeMapping TypeName="Model.DocumentResourceMetaView">
+              <MappingFragment StoreEntitySet="DocumentResourceMetaView">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FeaturedImageKey" ColumnName="FeaturedImageKey" />
+                <ScalarProperty Name="KeyType" ColumnName="KeyType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageContainerMetaViews">
+            <EntityTypeMapping TypeName="Model.PageContainerMetaView">
+              <MappingFragment StoreEntitySet="PageContainerMetaView">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FeaturedImageKey" ColumnName="FeaturedImageKey" />
+                <ScalarProperty Name="KeyType" ColumnName="KeyType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="database_firewall_rules">
+            <EntityTypeMapping TypeName="Model.database_firewall_rules">
+              <MappingFragment StoreEntitySet="database_firewall_rules">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="start_ip_address" ColumnName="start_ip_address" />
+                <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

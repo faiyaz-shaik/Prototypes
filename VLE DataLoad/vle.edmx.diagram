@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aaf8e1e0a87047e3b3a09f33b099ab46" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.C__MigrationHistory" Width="1.75" PointX="0.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.BlobResource" Width="1.5" PointX="7.5" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ContentResource" Width="1.5" PointX="12" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CurriculumResource" Width="1.5" PointX="14.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Directorate" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.DocumentResource" Width="1.875" PointX="5.25" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.EventResource" Width="1.5" PointX="14.25" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ImageResource" Width="1.5" PointX="9.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Keyword" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.MarkdownResource" Width="1.5" PointX="7.5" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ProjectResource" Width="1.5" PointX="14.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ResourceKeyword" Width="1.875" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ResourceRelation" Width="1.5" PointX="5.25" PointY="28.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ResourceTaxonomy" Width="1.5" PointX="5.25" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ScormResource" Width="1.5" PointX="9.75" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Status" Width="1.5" PointX="5.25" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.VideoResource" Width="1.5" PointX="9.75" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.VleResource" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.VleResourceType" Width="2.375" PointX="1.375" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.WebResource" Width="1.5" PointX="7.5" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ContentContainerMetaView" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.DocumentResourceMetaView" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.PageContainerMetaView" Width="2.875" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.database_firewall_rules" Width="3.25" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_dbo_BlobResource_dbo_DocumentResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ImageResource_dbo_BlobResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ScormResource_dbo_BlobResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_VideoResource_dbo_BlobResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ContentResource_dbo_VleResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_CurriculumResource_dbo_ContentResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_EventResource_dbo_ContentResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ProjectResource_dbo_ContentResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_VleResource_dbo_ContentResource_ParentId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_VleResource_dbo_Directorate_OwnerId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_DocumentResource_dbo_VleResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_MarkdownResource_dbo_DocumentResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_WebResource_dbo_DocumentResource_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ResourceRelation_dbo_VleResource_RelationId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_Status_dbo_VleResource_VleResourceId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_VleResource_dbo_ContentType_ContentTypeId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
