@@ -38,7 +38,7 @@ namespace VLE_DataLoad
                     resource.Description = "Descriptrion for Test Project using loader " + System.Guid.NewGuid() + " " + i;
                     resource.OwnerId = 2;
                     resource.ContentTypeId = 1;
-                    resource.ParentId =  System.Int32.Parse(txtRooNode.Text); //NMAHP = 2, another
+                    resource.ParentId =  System.Int32.Parse(txtRooNode.Text); //NMAHP = 2, another, other nodes
                     resource.IsActive = true;
                     resource.CreatedOn = DateTime.Now;
                     resource.CreatedBy = -1;
