@@ -47,6 +47,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebSite1(1)", "..\..\Users\
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "52684"
+		SlnRelativePath = "..\..\Users\faiyazs\Documents\Visual Studio 2015\WebSites\WebSite1\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
