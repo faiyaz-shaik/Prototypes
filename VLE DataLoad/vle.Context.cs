@@ -29,11 +29,9 @@ namespace VLE_DataLoad
         public virtual DbSet<BlobResource> BlobResources { get; set; }
         public virtual DbSet<ContentResource> ContentResources { get; set; }
         public virtual DbSet<CurriculumResource> CurriculumResources { get; set; }
-        public virtual DbSet<Directorate> Directorates { get; set; }
         public virtual DbSet<DocumentResource> DocumentResources { get; set; }
         public virtual DbSet<EventResource> EventResources { get; set; }
         public virtual DbSet<ImageResource> ImageResources { get; set; }
-        public virtual DbSet<Keyword> Keywords { get; set; }
         public virtual DbSet<MarkdownResource> MarkdownResources { get; set; }
         public virtual DbSet<ProjectResource> ProjectResources { get; set; }
         public virtual DbSet<ResourceKeyword> ResourceKeywords { get; set; }
@@ -42,12 +40,20 @@ namespace VLE_DataLoad
         public virtual DbSet<ScormResource> ScormResources { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<VideoResource> VideoResources { get; set; }
-        public virtual DbSet<VleResource> VleResources { get; set; }
-        public virtual DbSet<VleResourceType> VleResourceTypes { get; set; }
         public virtual DbSet<WebResource> WebResources { get; set; }
         public virtual DbSet<ContentContainerMetaView> ContentContainerMetaViews { get; set; }
         public virtual DbSet<DocumentResourceMetaView> DocumentResourceMetaViews { get; set; }
         public virtual DbSet<PageContainerMetaView> PageContainerMetaViews { get; set; }
         public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
+        public virtual DbSet<AzureReindex> AzureReindexes { get; set; }
+        public virtual DbSet<AzureReindexItem> AzureReindexItems { get; set; }
+        public virtual DbSet<PermissionGroup> PermissionGroups { get; set; }
+        public virtual DbSet<ResourcePermissionGroup> ResourcePermissionGroups { get; set; }
+        public virtual DbSet<ScormLearning> ScormLearnings { get; set; }
+        public virtual DbSet<ScormLearningSession> ScormLearningSessions { get; set; }
+        public virtual DbSet<VleResource> VleResources { get; set; }
+        public virtual DbSet<Directorate> Directorates { get; set; }
+        public virtual DbSet<VleResourceType> VleResourceTypes { get; set; }
+        public virtual DbSet<Keyword> Keywords { get; set; }
     }
 }

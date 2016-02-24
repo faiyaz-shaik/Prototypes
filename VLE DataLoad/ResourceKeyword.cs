@@ -18,7 +18,7 @@ namespace VLE_DataLoad
         public int VleResourceId { get; set; }
         public int KeywordId { get; set; }
     
-        public virtual Keyword Keyword { get; set; }
         public virtual VleResource VleResource { get; set; }
+        public virtual Keyword Keyword { get; set; }
     }
 }

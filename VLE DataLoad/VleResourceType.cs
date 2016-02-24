@@ -24,14 +24,13 @@ namespace VLE_DataLoad
         public string Code { get; set; }
         public Nullable<int> SortOrder { get; set; }
         public string GlyphIcon { get; set; }
-        public int ContentTypeId { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public bool InTrash { get; set; }
         public System.DateTime CreatedOn { get; set; }
-        public int CreatedBy { get; set; }
         public Nullable<System.DateTime> LastModifiedOn { get; set; }
-        public Nullable<int> LastModifiedBy { get; set; }
+        public System.Guid CreatedBy { get; set; }
+        public Nullable<System.Guid> LastModifiedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VleResource> VleResources { get; set; }

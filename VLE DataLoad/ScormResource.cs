@@ -16,6 +16,7 @@ namespace VLE_DataLoad
     {
         public int Id { get; set; }
         public string FolderName { get; set; }
+        public string CompletionTime { get; set; }
     
         public virtual BlobResource BlobResource { get; set; }
     }

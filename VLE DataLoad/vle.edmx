@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -15,6 +15,34 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="AzureReindex">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="TotalToProcess" Type="int" Nullable="false" />
+          <Property Name="TotalProcessed" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="AzureReindexItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="AzureReindexId" Type="int" Nullable="false" />
+          <Property Name="TimeIndexed" Type="datetime" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="BlobResource">
           <Key>
             <PropertyRef Name="Id" />
@@ -23,6 +51,9 @@
           <Property Name="FileName" Type="nvarchar(max)" />
           <Property Name="FileUrl" Type="nvarchar(max)" />
           <Property Name="FileSizeInBytes" Type="bigint" Nullable="false" />
+          <Property Name="SeriesTitle" Type="nvarchar" MaxLength="250" />
+          <Property Name="MetaIdentifierDocumentId" Type="nvarchar" MaxLength="50" />
+          <Property Name="MetaLifecycleVersion" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ContentResource">
           <Key>
@@ -48,9 +79,9 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="InTrash" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="LastModifiedOn" Type="datetime" />
-          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="DocumentResource">
           <Key>
@@ -59,6 +90,7 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Author" Type="nvarchar" MaxLength="250" />
           <Property Name="AuthorOrganisation" Type="nvarchar" MaxLength="250" />
+          <Property Name="MetaDateItemPublished" Type="datetime" />
         </EntityType>
         <EntityType Name="EventResource">
           <Key>
@@ -84,9 +116,9 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="InTrash" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="LastModifiedOn" Type="datetime" />
-          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="MarkdownResource">
           <Key>
@@ -95,6 +127,20 @@
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Subject" Type="nvarchar" MaxLength="250" />
           <Property Name="Markdown" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PermissionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InTrash" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="ProjectResource">
           <Key>
@@ -109,6 +155,14 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VleResourceId" Type="int" Nullable="false" />
           <Property Name="KeywordId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResourcePermissionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+          <Property Name="PermissionGroupId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ResourceRelation">
           <Key>
@@ -128,12 +182,52 @@
           <Property Name="TaxonomyId" Type="int" Nullable="false" />
           <Property Name="TaxonomyFieldType" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ScormLearning">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="nvarchar" MaxLength="255" />
+          <Property Name="StudentName" Type="nvarchar" MaxLength="255" />
+          <Property Name="LessonLocation" Type="nvarchar" MaxLength="255" />
+          <Property Name="Credit" Type="nvarchar" MaxLength="255" />
+          <Property Name="LessonStatus" Type="nvarchar" MaxLength="255" />
+          <Property Name="Entry" Type="nvarchar" MaxLength="255" />
+          <Property Name="Children" Type="nvarchar" MaxLength="255" />
+          <Property Name="ScoreChildren" Type="nvarchar" MaxLength="255" />
+          <Property Name="ScoreRaw" Type="nvarchar" MaxLength="255" />
+          <Property Name="ScoreMin" Type="nvarchar" MaxLength="255" />
+          <Property Name="ScoreMax" Type="nvarchar" MaxLength="255" />
+          <Property Name="TotalTime" Type="nvarchar" MaxLength="25" />
+          <Property Name="LessonMode" Type="nvarchar" MaxLength="255" />
+          <Property Name="Exit" Type="nvarchar" MaxLength="255" />
+          <Property Name="SuspendData" Type="nvarchar(max)" />
+          <Property Name="LaunchData" Type="nvarchar(max)" />
+          <Property Name="ModuleId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="InTrash" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="ScormLearningSession">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LearningId" Type="int" Nullable="false" />
+          <Property Name="SessionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SessionTime" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="ScormResource">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="FolderName" Type="nvarchar(max)" />
+          <Property Name="FolderName" Type="nvarchar" MaxLength="250" />
+          <Property Name="CompletionTime" Type="nvarchar" MaxLength="15" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -168,10 +262,12 @@
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="InTrash" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="LastModifiedOn" Type="datetime" />
-          <Property Name="LastModifiedBy" Type="int" />
           <Property Name="IsFeatured" Type="bit" Nullable="false" />
+          <Property Name="RightsCopyright" Type="nvarchar(max)" />
+          <Property Name="Disposal" Type="datetime" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="VleResourceType">
           <Key>
@@ -181,24 +277,23 @@
           <Property Name="Code" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="SortOrder" Type="int" />
           <Property Name="GlyphIcon" Type="nvarchar(max)" />
-          <Property Name="ContentTypeId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="InTrash" Type="bit" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="LastModifiedOn" Type="datetime" />
-          <Property Name="LastModifiedBy" Type="int" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="WebResource">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Url" Type="nvarchar(max)" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.ContentContainerMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'nes-ndp-int-sqldb-vledb.dbo.ContentContainerMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ContentContainerMetaView">
           <Key>
             <PropertyRef Name="Id" />
@@ -212,7 +307,7 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.ContentContainerMetaVi
           <Property Name="KeyType" Type="varchar" MaxLength="16" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.DocumentResourceMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'nes-ndp-int-sqldb-vledb.dbo.DocumentResourceMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DocumentResourceMetaView">
           <Key>
             <PropertyRef Name="Id" />
@@ -226,7 +321,7 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.DocumentResourceMetaVi
           <Property Name="KeyType" Type="varchar" MaxLength="16" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.PageContainerMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'nes-ndp-int-sqldb-vledb.dbo.PageContainerMetaView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PageContainerMetaView">
           <Key>
             <PropertyRef Name="Id" />
@@ -240,7 +335,7 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.dbo.PageContainerMetaView'
           <Property Name="KeyType" Type="varchar" MaxLength="13" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'nes-ndp-int-sqldb-vledb.sys.database_firewall_rules' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="database_firewall_rules">
           <Key>
             <PropertyRef Name="id" />
@@ -393,6 +488,34 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId">
+          <End Role="PermissionGroup" Type="Self.PermissionGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourcePermissionGroup" Type="Self.ResourcePermissionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourcePermissionGroup">
+              <PropertyRef Name="PermissionGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId">
+          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ResourcePermissionGroup" Type="Self.ResourcePermissionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourcePermissionGroup">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
           <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -523,6 +646,8 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
         </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AzureReindex" EntityType="Self.AzureReindex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AzureReindexItem" EntityType="Self.AzureReindexItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BlobResource" EntityType="Self.BlobResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContentResource" EntityType="Self.ContentResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurriculumResource" EntityType="Self.CurriculumResource" Schema="dbo" store:Type="Tables" />
@@ -532,10 +657,14 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <EntitySet Name="ImageResource" EntityType="Self.ImageResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Keyword" EntityType="Self.Keyword" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MarkdownResource" EntityType="Self.MarkdownResource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PermissionGroup" EntityType="Self.PermissionGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectResource" EntityType="Self.ProjectResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourceKeyword" EntityType="Self.ResourceKeyword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourcePermissionGroup" EntityType="Self.ResourcePermissionGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourceRelation" EntityType="Self.ResourceRelation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourceTaxonomy" EntityType="Self.ResourceTaxonomy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScormLearning" EntityType="Self.ScormLearning" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScormLearningSession" EntityType="Self.ScormLearningSession" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScormResource" EntityType="Self.ScormResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VideoResource" EntityType="Self.VideoResource" Schema="dbo" store:Type="Tables" />
@@ -626,6 +755,14 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             <End Role="VleResource" EntitySet="VleResource" />
             <End Role="ResourceKeyword" EntitySet="ResourceKeyword" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId" Association="Self.FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId">
+            <End Role="PermissionGroup" EntitySet="PermissionGroup" />
+            <End Role="ResourcePermissionGroup" EntitySet="ResourcePermissionGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId" Association="Self.FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId">
+            <End Role="VleResource" EntitySet="VleResource" />
+            <End Role="ResourcePermissionGroup" EntitySet="ResourcePermissionGroup" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId" Association="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
             <End Role="VleResource" EntitySet="VleResource" />
             <End Role="ResourceRelation" EntitySet="ResourceRelation" />
@@ -667,8 +804,7 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             <End Role="WebResource" EntitySet="WebResource" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -694,6 +830,9 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <NavigationProperty Name="ImageResource" Relationship="Self.FK_dbo_ImageResource_dbo_BlobResource_Id" FromRole="BlobResource" ToRole="ImageResource" />
           <NavigationProperty Name="ScormResource" Relationship="Self.FK_dbo_ScormResource_dbo_BlobResource_Id" FromRole="BlobResource" ToRole="ScormResource" />
           <NavigationProperty Name="VideoResource" Relationship="Self.FK_dbo_VideoResource_dbo_BlobResource_Id" FromRole="BlobResource" ToRole="VideoResource" />
+          <Property Name="SeriesTitle" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MetaIdentifierDocumentId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MetaLifecycleVersion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ContentResource">
           <Key>
@@ -703,11 +842,11 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="LogoImageResourceId" Type="Int32" />
           <Property Name="HideLogo" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ImageResource" Relationship="Self.FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId" FromRole="ContentResource" ToRole="ImageResource" />
-          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ContentResource_dbo_VleResource_Id" FromRole="ContentResource" ToRole="VleResource" />
           <NavigationProperty Name="CurriculumResource" Relationship="Self.FK_dbo_CurriculumResource_dbo_ContentResource_Id" FromRole="ContentResource" ToRole="CurriculumResource" />
           <NavigationProperty Name="EventResource" Relationship="Self.FK_dbo_EventResource_dbo_ContentResource_Id" FromRole="ContentResource" ToRole="EventResource" />
           <NavigationProperty Name="ProjectResource" Relationship="Self.FK_dbo_ProjectResource_dbo_ContentResource_Id" FromRole="ContentResource" ToRole="ProjectResource" />
-          <NavigationProperty Name="VleResources" Relationship="Self.FK_dbo_VleResource_dbo_ContentResource_ParentId" FromRole="ContentResource" ToRole="VleResource" />
+          <NavigationProperty Name="VleResource" Relationship="Model.FK_dbo_ContentResource_dbo_VleResource_Id" FromRole="ContentResource" ToRole="VleResource" />
+          <NavigationProperty Name="VleResources" Relationship="Model.FK_dbo_VleResource_dbo_ContentResource_ParentId" FromRole="ContentResource" ToRole="VleResource" />
         </EntityType>
         <EntityType Name="CurriculumResource">
           <Key>
@@ -715,21 +854,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ContentResource" Relationship="Self.FK_dbo_CurriculumResource_dbo_ContentResource_Id" FromRole="CurriculumResource" ToRole="ContentResource" />
-        </EntityType>
-        <EntityType Name="Directorate">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="InTrash" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="LastModifiedBy" Type="Int32" />
-          <NavigationProperty Name="VleResources" Relationship="Self.FK_dbo_VleResource_dbo_Directorate_OwnerId" FromRole="Directorate" ToRole="VleResource" />
         </EntityType>
         <EntityType Name="DocumentResource">
           <Key>
@@ -739,9 +863,10 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="Author" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="AuthorOrganisation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_BlobResource_dbo_DocumentResource_Id" FromRole="DocumentResource" ToRole="BlobResource" />
-          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_DocumentResource_dbo_VleResource_Id" FromRole="DocumentResource" ToRole="VleResource" />
           <NavigationProperty Name="MarkdownResource" Relationship="Self.FK_dbo_MarkdownResource_dbo_DocumentResource_Id" FromRole="DocumentResource" ToRole="MarkdownResource" />
           <NavigationProperty Name="WebResource" Relationship="Self.FK_dbo_WebResource_dbo_DocumentResource_Id" FromRole="DocumentResource" ToRole="WebResource" />
+          <Property Name="MetaDateItemPublished" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="VleResource" Relationship="Model.FK_dbo_DocumentResource_dbo_VleResource_Id" FromRole="DocumentResource" ToRole="VleResource" />
         </EntityType>
         <EntityType Name="EventResource">
           <Key>
@@ -759,21 +884,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="Height" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_ImageResource_dbo_BlobResource_Id" FromRole="ImageResource" ToRole="BlobResource" />
           <NavigationProperty Name="ContentResources" Relationship="Self.FK_dbo_ContentResource_dbo_ImageResource_LogoImageResourceId" FromRole="ImageResource" ToRole="ContentResource" />
-        </EntityType>
-        <EntityType Name="Keyword">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ContentId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="InTrash" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="LastModifiedBy" Type="Int32" />
-          <NavigationProperty Name="ResourceKeywords" Relationship="Self.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" FromRole="Keyword" ToRole="ResourceKeyword" />
         </EntityType>
         <EntityType Name="MarkdownResource">
           <Key>
@@ -798,8 +908,8 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VleResourceId" Type="Int32" Nullable="false" />
           <Property Name="KeywordId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Keyword" Relationship="Self.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" FromRole="ResourceKeyword" ToRole="Keyword" />
-          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" FromRole="ResourceKeyword" ToRole="VleResource" />
+          <NavigationProperty Name="VleResource" Relationship="Model.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" FromRole="ResourceKeyword" ToRole="VleResource" />
+          <NavigationProperty Name="Keyword" Relationship="Model.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" FromRole="ResourceKeyword" ToRole="Keyword" />
         </EntityType>
         <EntityType Name="ResourceRelation">
           <Key>
@@ -809,9 +919,9 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="ResourceId" Type="Int32" Nullable="false" />
           <Property Name="RelationId" Type="Int32" Nullable="false" />
           <Property Name="RelationType" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId" FromRole="ResourceRelation" ToRole="VleResource" />
-          <NavigationProperty Name="VleResource1" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" FromRole="ResourceRelation" ToRole="VleResource" />
-        </EntityType>
+          <NavigationProperty Name="VleResource" Relationship="Model.FK_dbo_ResourceRelation_dbo_VleResource_RelationId" FromRole="ResourceRelation" ToRole="VleResource" />
+          <NavigationProperty Name="VleResource1" Relationship="Model.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" FromRole="ResourceRelation" ToRole="VleResource" />
+          </EntityType>
         <EntityType Name="ResourceTaxonomy">
           <Key>
             <PropertyRef Name="Id" />
@@ -820,15 +930,16 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="VleResourceId" Type="Int32" Nullable="false" />
           <Property Name="TaxonomyId" Type="Int32" Nullable="false" />
           <Property Name="TaxonomyFieldType" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" FromRole="ResourceTaxonomy" ToRole="VleResource" />
+          <NavigationProperty Name="VleResource" Relationship="Model.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" FromRole="ResourceTaxonomy" ToRole="VleResource" />
         </EntityType>
         <EntityType Name="ScormResource">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="FolderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FolderName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_ScormResource_dbo_BlobResource_Id" FromRole="ScormResource" ToRole="BlobResource" />
+          <Property Name="CompletionTime" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -839,7 +950,7 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="ResourceStatus" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="User" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="VleResource" Relationship="Self.FK_dbo_Status_dbo_VleResource_VleResourceId" FromRole="Status" ToRole="VleResource" />
+          <NavigationProperty Name="VleResource" Relationship="Model.FK_dbo_Status_dbo_VleResource_VleResourceId" FromRole="Status" ToRole="VleResource" />
         </EntityType>
         <EntityType Name="VideoResource">
           <Key>
@@ -849,61 +960,12 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BlobResource" Relationship="Self.FK_dbo_VideoResource_dbo_BlobResource_Id" FromRole="VideoResource" ToRole="BlobResource" />
         </EntityType>
-        <EntityType Name="VleResource">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="OwnerId" Type="Int32" />
-          <Property Name="FeaturedImageKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="DisplayOrder" Type="Int32" />
-          <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
-          <Property Name="ParentId" Type="Int32" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="InTrash" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="LastModifiedBy" Type="Int32" />
-          <Property Name="IsFeatured" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="ContentResource" Relationship="Self.FK_dbo_ContentResource_dbo_VleResource_Id" FromRole="VleResource" ToRole="ContentResource" />
-          <NavigationProperty Name="ContentResource1" Relationship="Self.FK_dbo_VleResource_dbo_ContentResource_ParentId" FromRole="VleResource" ToRole="ContentResource" />
-          <NavigationProperty Name="Directorate" Relationship="Self.FK_dbo_VleResource_dbo_Directorate_OwnerId" FromRole="VleResource" ToRole="Directorate" />
-          <NavigationProperty Name="DocumentResource" Relationship="Self.FK_dbo_DocumentResource_dbo_VleResource_Id" FromRole="VleResource" ToRole="DocumentResource" />
-          <NavigationProperty Name="ResourceKeywords" Relationship="Self.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="ResourceKeyword" />
-          <NavigationProperty Name="ResourceRelations" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId" FromRole="VleResource" ToRole="ResourceRelation" />
-          <NavigationProperty Name="ResourceRelations1" Relationship="Self.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" FromRole="VleResource" ToRole="ResourceRelation" />
-          <NavigationProperty Name="ResourceTaxonomies" Relationship="Self.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="ResourceTaxonomy" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_dbo_Status_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="Status" />
-          <NavigationProperty Name="VleResourceType" Relationship="Self.FK_dbo_VleResource_dbo_ContentType_ContentTypeId" FromRole="VleResource" ToRole="VleResourceType" />
-        </EntityType>
-        <EntityType Name="VleResourceType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SortOrder" Type="Int32" />
-          <Property Name="GlyphIcon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="InTrash" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
-          <Property Name="LastModifiedBy" Type="Int32" />
-          <NavigationProperty Name="VleResources" Relationship="Self.FK_dbo_VleResource_dbo_ContentType_ContentTypeId" FromRole="VleResourceType" ToRole="VleResource" />
-        </EntityType>
         <EntityType Name="WebResource">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DocumentResource" Relationship="Self.FK_dbo_WebResource_dbo_DocumentResource_Id" FromRole="WebResource" ToRole="DocumentResource" />
         </EntityType>
         <EntityType Name="ContentContainerMetaView">
@@ -1018,18 +1080,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_ContentResource_dbo_VleResource_Id">
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
-          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="VleResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ContentResource">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_CurriculumResource_dbo_ContentResource_Id">
           <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="1" />
           <End Role="CurriculumResource" Type="Self.CurriculumResource" Multiplicity="0..1" />
@@ -1066,42 +1116,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_VleResource_dbo_ContentResource_ParentId">
-          <End Role="ContentResource" Type="Self.ContentResource" Multiplicity="0..1" />
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ContentResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="VleResource">
-              <PropertyRef Name="ParentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_VleResource_dbo_Directorate_OwnerId">
-          <End Role="Directorate" Type="Self.Directorate" Multiplicity="0..1" />
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Directorate">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="VleResource">
-              <PropertyRef Name="OwnerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_DocumentResource_dbo_VleResource_Id">
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
-          <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="VleResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DocumentResource">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_MarkdownResource_dbo_DocumentResource_Id">
           <End Role="DocumentResource" Type="Self.DocumentResource" Multiplicity="1" />
           <End Role="MarkdownResource" Type="Self.MarkdownResource" Multiplicity="0..1" />
@@ -1126,112 +1140,14 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
-          <End Role="Keyword" Type="Self.Keyword" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ResourceKeyword" Type="Self.ResourceKeyword" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Keyword">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceKeyword">
-              <PropertyRef Name="KeywordId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ResourceKeyword" Type="Self.ResourceKeyword" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VleResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceKeyword">
-              <PropertyRef Name="VleResourceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ResourceRelation" Type="Self.ResourceRelation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VleResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceRelation">
-              <PropertyRef Name="RelationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1" />
-          <End Role="ResourceRelation" Type="Self.ResourceRelation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VleResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceRelation">
-              <PropertyRef Name="ResourceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="ResourceTaxonomy" Type="Self.ResourceTaxonomy" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VleResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ResourceTaxonomy">
-              <PropertyRef Name="VleResourceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Status_dbo_VleResource_VleResourceId">
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Status" Type="Self.Status" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VleResource">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Status">
-              <PropertyRef Name="VleResourceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
-          <End Role="VleResourceType" Type="Self.VleResourceType" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="VleResource" Type="Self.VleResource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VleResourceType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="VleResource">
-              <PropertyRef Name="ContentTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="BlobResources" EntityType="Self.BlobResource" />
           <EntitySet Name="ContentResources" EntityType="Self.ContentResource" />
           <EntitySet Name="CurriculumResources" EntityType="Self.CurriculumResource" />
-          <EntitySet Name="Directorates" EntityType="Self.Directorate" />
           <EntitySet Name="DocumentResources" EntityType="Self.DocumentResource" />
           <EntitySet Name="EventResources" EntityType="Self.EventResource" />
           <EntitySet Name="ImageResources" EntityType="Self.ImageResource" />
-          <EntitySet Name="Keywords" EntityType="Self.Keyword" />
           <EntitySet Name="MarkdownResources" EntityType="Self.MarkdownResource" />
           <EntitySet Name="ProjectResources" EntityType="Self.ProjectResource" />
           <EntitySet Name="ResourceKeywords" EntityType="Self.ResourceKeyword" />
@@ -1240,8 +1156,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <EntitySet Name="ScormResources" EntityType="Self.ScormResource" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="VideoResources" EntityType="Self.VideoResource" />
-          <EntitySet Name="VleResources" EntityType="Self.VleResource" />
-          <EntitySet Name="VleResourceTypes" EntityType="Self.VleResourceType" />
           <EntitySet Name="WebResources" EntityType="Self.WebResource" />
           <EntitySet Name="ContentContainerMetaViews" EntityType="Self.ContentContainerMetaView" />
           <EntitySet Name="DocumentResourceMetaViews" EntityType="Self.DocumentResourceMetaView" />
@@ -1267,10 +1181,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             <End Role="ImageResource" EntitySet="ImageResources" />
             <End Role="ContentResource" EntitySet="ContentResources" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_ContentResource_dbo_VleResource_Id" Association="Self.FK_dbo_ContentResource_dbo_VleResource_Id">
-            <End Role="VleResource" EntitySet="VleResources" />
-            <End Role="ContentResource" EntitySet="ContentResources" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_CurriculumResource_dbo_ContentResource_Id" Association="Self.FK_dbo_CurriculumResource_dbo_ContentResource_Id">
             <End Role="ContentResource" EntitySet="ContentResources" />
             <End Role="CurriculumResource" EntitySet="CurriculumResources" />
@@ -1283,18 +1193,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             <End Role="ContentResource" EntitySet="ContentResources" />
             <End Role="ProjectResource" EntitySet="ProjectResources" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentResource_ParentId" Association="Self.FK_dbo_VleResource_dbo_ContentResource_ParentId">
-            <End Role="ContentResource" EntitySet="ContentResources" />
-            <End Role="VleResource" EntitySet="VleResources" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_VleResource_dbo_Directorate_OwnerId" Association="Self.FK_dbo_VleResource_dbo_Directorate_OwnerId">
-            <End Role="Directorate" EntitySet="Directorates" />
-            <End Role="VleResource" EntitySet="VleResources" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_DocumentResource_dbo_VleResource_Id" Association="Self.FK_dbo_DocumentResource_dbo_VleResource_Id">
-            <End Role="VleResource" EntitySet="VleResources" />
-            <End Role="DocumentResource" EntitySet="DocumentResources" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_MarkdownResource_dbo_DocumentResource_Id" Association="Self.FK_dbo_MarkdownResource_dbo_DocumentResource_Id">
             <End Role="DocumentResource" EntitySet="DocumentResources" />
             <End Role="MarkdownResource" EntitySet="MarkdownResources" />
@@ -1303,35 +1201,414 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
             <End Role="DocumentResource" EntitySet="DocumentResources" />
             <End Role="WebResource" EntitySet="WebResources" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" Association="Self.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
-            <End Role="Keyword" EntitySet="Keywords" />
-            <End Role="ResourceKeyword" EntitySet="ResourceKeywords" />
+          <EntitySet Name="AzureReindexes" EntityType="Model.AzureReindex" />
+          <EntitySet Name="AzureReindexItems" EntityType="Model.AzureReindexItem" />
+          <EntitySet Name="PermissionGroups" EntityType="Model.PermissionGroup" />
+          <EntitySet Name="ResourcePermissionGroups" EntityType="Model.ResourcePermissionGroup" />
+          <EntitySet Name="ScormLearnings" EntityType="Model.ScormLearning" />
+          <EntitySet Name="ScormLearningSessions" EntityType="Model.ScormLearningSession" />
+          <AssociationSet Name="FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId" Association="Model.FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId">
+            <End Role="PermissionGroup" EntitySet="PermissionGroups" />
+            <End Role="ResourcePermissionGroup" EntitySet="ResourcePermissionGroups" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
+          <EntitySet Name="VleResources" EntityType="Model.VleResource" />
+          <AssociationSet Name="FK_dbo_ContentResource_dbo_VleResource_Id" Association="Model.FK_dbo_ContentResource_dbo_VleResource_Id">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="ContentResource" EntitySet="ContentResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentResource_ParentId" Association="Model.FK_dbo_VleResource_dbo_ContentResource_ParentId">
+            <End Role="ContentResource" EntitySet="ContentResources" />
+            <End Role="VleResource" EntitySet="VleResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_DocumentResource_dbo_VleResource_Id" Association="Model.FK_dbo_DocumentResource_dbo_VleResource_Id">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="DocumentResource" EntitySet="DocumentResources" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" Association="Model.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
             <End Role="VleResource" EntitySet="VleResources" />
             <End Role="ResourceKeyword" EntitySet="ResourceKeywords" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId" Association="Self.FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
+          <AssociationSet Name="FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId" Association="Model.FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId">
+            <End Role="VleResource" EntitySet="VleResources" />
+            <End Role="ResourcePermissionGroup" EntitySet="ResourcePermissionGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId" Association="Model.FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
             <End Role="VleResource" EntitySet="VleResources" />
             <End Role="ResourceRelation" EntitySet="ResourceRelations" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" Association="Self.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
+          <AssociationSet Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" Association="Model.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
             <End Role="VleResource" EntitySet="VleResources" />
             <End Role="ResourceRelation" EntitySet="ResourceRelations" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
+          <AssociationSet Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" Association="Model.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
             <End Role="VleResource" EntitySet="VleResources" />
             <End Role="ResourceTaxonomy" EntitySet="ResourceTaxonomies" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Status_dbo_VleResource_VleResourceId" Association="Self.FK_dbo_Status_dbo_VleResource_VleResourceId">
+          <AssociationSet Name="FK_dbo_Status_dbo_VleResource_VleResourceId" Association="Model.FK_dbo_Status_dbo_VleResource_VleResourceId">
             <End Role="VleResource" EntitySet="VleResources" />
             <End Role="Status" EntitySet="Status" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId" Association="Self.FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
+          <EntitySet Name="Directorates" EntityType="Model.Directorate" />
+          <AssociationSet Name="FK_dbo_VleResource_dbo_Directorate_OwnerId" Association="Model.FK_dbo_VleResource_dbo_Directorate_OwnerId">
+            <End Role="Directorate" EntitySet="Directorates" />
+            <End Role="VleResource" EntitySet="VleResources" />
+          </AssociationSet>
+          <EntitySet Name="VleResourceTypes" EntityType="Model.VleResourceType" />
+          <AssociationSet Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId" Association="Model.FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
             <End Role="VleResourceType" EntitySet="VleResourceTypes" />
             <End Role="VleResource" EntitySet="VleResources" />
           </AssociationSet>
+          <EntitySet Name="Keywords" EntityType="Model.Keyword" />
+          <AssociationSet Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" Association="Model.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
+            <End Role="Keyword" EntitySet="Keywords" />
+            <End Role="ResourceKeyword" EntitySet="ResourceKeywords" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AzureReindex">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalToProcess" Type="Int32" Nullable="false" />
+          <Property Name="TotalProcessed" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+        </EntityType>
+        <EntityType Name="AzureReindexItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="AzureReindexId" Type="Int32" Nullable="false" />
+          <Property Name="TimeIndexed" Type="DateTime" Precision="3" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+        </EntityType>
+        <EntityType Name="PermissionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+          <NavigationProperty Name="ResourcePermissionGroups" Relationship="Model.FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId" FromRole="PermissionGroup" ToRole="ResourcePermissionGroup" />
+        </EntityType>
+        <EntityType Name="ResourcePermissionGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResourceId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionGroupId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PermissionGroup" Relationship="Model.FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId" FromRole="ResourcePermissionGroup" ToRole="PermissionGroup" />
+          <NavigationProperty Name="VleResource" Relationship="Model.FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId" FromRole="ResourcePermissionGroup" ToRole="VleResource" />
+        </EntityType>
+        <EntityType Name="ScormLearning">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="StudentName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LessonLocation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Credit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LessonStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Entry" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Children" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ScoreChildren" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ScoreRaw" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ScoreMin" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ScoreMax" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TotalTime" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="LessonMode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Exit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SuspendData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LaunchData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ModuleId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+        </EntityType>
+        <EntityType Name="ScormLearningSession">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LearningId" Type="Int32" Nullable="false" />
+          <Property Name="SessionId" Type="Guid" Nullable="false" />
+          <Property Name="SessionTime" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_dbo_ResourcePermissionGroup_dbo_PermissionGroup_PermissionGroupId">
+          <End Type="Model.PermissionGroup" Role="PermissionGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.ResourcePermissionGroup" Role="ResourcePermissionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PermissionGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourcePermissionGroup">
+              <PropertyRef Name="PermissionGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VleResource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerId" Type="Int32" />
+          <Property Name="FeaturedImageKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Organisation" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DisplayOrder" Type="Int32" />
+          <Property Name="ContentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="IsFeatured" Type="Boolean" Nullable="false" />
+          <Property Name="RightsCopyright" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Disposal" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+          <NavigationProperty Name="ContentResource" Relationship="Model.FK_dbo_ContentResource_dbo_VleResource_Id" FromRole="VleResource" ToRole="ContentResource" />
+          <NavigationProperty Name="ContentResource1" Relationship="Model.FK_dbo_VleResource_dbo_ContentResource_ParentId" FromRole="VleResource" ToRole="ContentResource" />
+          <NavigationProperty Name="DocumentResource" Relationship="Model.FK_dbo_DocumentResource_dbo_VleResource_Id" FromRole="VleResource" ToRole="DocumentResource" />
+          <NavigationProperty Name="ResourceKeywords" Relationship="Model.FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="ResourceKeyword" />
+          <NavigationProperty Name="ResourcePermissionGroups" Relationship="Model.FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId" FromRole="VleResource" ToRole="ResourcePermissionGroup" />
+          <NavigationProperty Name="ResourceRelations" Relationship="Model.FK_dbo_ResourceRelation_dbo_VleResource_RelationId" FromRole="VleResource" ToRole="ResourceRelation" />
+          <NavigationProperty Name="ResourceRelations1" Relationship="Model.FK_dbo_ResourceRelation_dbo_VleResource_ResourceId" FromRole="VleResource" ToRole="ResourceRelation" />
+          <NavigationProperty Name="ResourceTaxonomies" Relationship="Model.FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="ResourceTaxonomy" />
+          <NavigationProperty Name="Status" Relationship="Model.FK_dbo_Status_dbo_VleResource_VleResourceId" FromRole="VleResource" ToRole="Status" />
+          <NavigationProperty Name="Directorate" Relationship="Model.FK_dbo_VleResource_dbo_Directorate_OwnerId" FromRole="VleResource" ToRole="Directorate" />
+          <NavigationProperty Name="VleResourceType" Relationship="Model.FK_dbo_VleResource_dbo_ContentType_ContentTypeId" FromRole="VleResource" ToRole="VleResourceType" />
+        </EntityType>
+        <Association Name="FK_dbo_ContentResource_dbo_VleResource_Id">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1" />
+          <End Type="Model.ContentResource" Role="ContentResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_VleResource_dbo_ContentResource_ParentId">
+          <End Type="Model.ContentResource" Role="ContentResource" Multiplicity="0..1" />
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContentResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_DocumentResource_dbo_VleResource_Id">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1" />
+          <End Type="Model.DocumentResource" Role="DocumentResource" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentResource">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceKeyword_dbo_VleResource_VleResourceId">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.ResourceKeyword" Role="ResourceKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceKeyword">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourcePermissionGroup_dbo_VleResource_ResourceId">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.ResourcePermissionGroup" Role="ResourcePermissionGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourcePermissionGroup">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_RelationId">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.ResourceRelation" Role="ResourceRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRelation">
+              <PropertyRef Name="RelationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceRelation_dbo_VleResource_ResourceId">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1" />
+          <End Type="Model.ResourceRelation" Role="ResourceRelation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceRelation">
+              <PropertyRef Name="ResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ResourceTaxonomy_dbo_VleResource_VleResourceId">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.ResourceTaxonomy" Role="ResourceTaxonomy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceTaxonomy">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Status_dbo_VleResource_VleResourceId">
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.Status" Role="Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResource">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Status">
+              <PropertyRef Name="VleResourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Directorate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+          <NavigationProperty Name="VleResources" Relationship="Model.FK_dbo_VleResource_dbo_Directorate_OwnerId" FromRole="Directorate" ToRole="VleResource" />
+        </EntityType>
+        <Association Name="FK_dbo_VleResource_dbo_Directorate_OwnerId">
+          <End Type="Model.Directorate" Role="Directorate" Multiplicity="0..1" />
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Directorate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="VleResourceType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SortOrder" Type="Int32" />
+          <Property Name="GlyphIcon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+          <NavigationProperty Name="VleResources" Relationship="Model.FK_dbo_VleResource_dbo_ContentType_ContentTypeId" FromRole="VleResourceType" ToRole="VleResource" />
+        </EntityType>
+        <Association Name="FK_dbo_VleResource_dbo_ContentType_ContentTypeId">
+          <End Type="Model.VleResourceType" Role="VleResourceType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.VleResource" Role="VleResource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VleResourceType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VleResource">
+              <PropertyRef Name="ContentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Keyword">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="InTrash" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="LastModifiedBy" Type="Guid" />
+          <NavigationProperty Name="ResourceKeywords" Relationship="Model.FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId" FromRole="Keyword" ToRole="ResourceKeyword" />
+        </EntityType>
+        <Association Name="FK_dbo_ResourceKeyword_dbo_Keyword_KeywordId">
+          <End Type="Model.Keyword" Role="Keyword" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Model.ResourceKeyword" Role="ResourceKeyword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Keyword">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResourceKeyword">
+              <PropertyRef Name="KeywordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1351,6 +1628,9 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <EntitySetMapping Name="BlobResources">
             <EntityTypeMapping TypeName="Model.BlobResource">
               <MappingFragment StoreEntitySet="BlobResource">
+                <ScalarProperty Name="MetaLifecycleVersion" ColumnName="MetaLifecycleVersion" />
+                <ScalarProperty Name="MetaIdentifierDocumentId" ColumnName="MetaIdentifierDocumentId" />
+                <ScalarProperty Name="SeriesTitle" ColumnName="SeriesTitle" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
@@ -1374,24 +1654,10 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Directorates">
-            <EntityTypeMapping TypeName="Model.Directorate">
-              <MappingFragment StoreEntitySet="Directorate">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
-                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="DocumentResources">
             <EntityTypeMapping TypeName="Model.DocumentResource">
               <MappingFragment StoreEntitySet="DocumentResource">
+                <ScalarProperty Name="MetaDateItemPublished" ColumnName="MetaDateItemPublished" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
                 <ScalarProperty Name="AuthorOrganisation" ColumnName="AuthorOrganisation" />
@@ -1411,21 +1677,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Keywords">
-            <EntityTypeMapping TypeName="Model.Keyword">
-              <MappingFragment StoreEntitySet="Keyword">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
-                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1477,6 +1728,7 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
           <EntitySetMapping Name="ScormResources">
             <EntityTypeMapping TypeName="Model.ScormResource">
               <MappingFragment StoreEntitySet="ScormResource">
+                <ScalarProperty Name="CompletionTime" ColumnName="CompletionTime" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="FolderName" ColumnName="FolderName" />
               </MappingFragment>
@@ -1498,46 +1750,6 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
               <MappingFragment StoreEntitySet="VideoResource">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VleResources">
-            <EntityTypeMapping TypeName="Model.VleResource">
-              <MappingFragment StoreEntitySet="VleResource">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
-                <ScalarProperty Name="FeaturedImageKey" ColumnName="FeaturedImageKey" />
-                <ScalarProperty Name="Organisation" ColumnName="Organisation" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="ContentTypeId" ColumnName="ContentTypeId" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
-                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VleResourceTypes">
-            <EntityTypeMapping TypeName="Model.VleResourceType">
-              <MappingFragment StoreEntitySet="VleResourceType">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
-                <ScalarProperty Name="GlyphIcon" ColumnName="GlyphIcon" />
-                <ScalarProperty Name="ContentTypeId" ColumnName="ContentTypeId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
-                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1594,6 +1806,172 @@ warning 6002: The table/view 'nes-ndp-uat-sqldb-vledb.sys.database_firewall_rule
                 <ScalarProperty Name="end_ip_address" ColumnName="end_ip_address" />
                 <ScalarProperty Name="create_date" ColumnName="create_date" />
                 <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AzureReindexes">
+            <EntityTypeMapping TypeName="Model.AzureReindex">
+              <MappingFragment StoreEntitySet="AzureReindex">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="TotalProcessed" ColumnName="TotalProcessed" />
+                <ScalarProperty Name="TotalToProcess" ColumnName="TotalToProcess" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AzureReindexItems">
+            <EntityTypeMapping TypeName="Model.AzureReindexItem">
+              <MappingFragment StoreEntitySet="AzureReindexItem">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="TimeIndexed" ColumnName="TimeIndexed" />
+                <ScalarProperty Name="AzureReindexId" ColumnName="AzureReindexId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PermissionGroups">
+            <EntityTypeMapping TypeName="Model.PermissionGroup">
+              <MappingFragment StoreEntitySet="PermissionGroup">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourcePermissionGroups">
+            <EntityTypeMapping TypeName="Model.ResourcePermissionGroup">
+              <MappingFragment StoreEntitySet="ResourcePermissionGroup">
+                <ScalarProperty Name="PermissionGroupId" ColumnName="PermissionGroupId" />
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScormLearnings">
+            <EntityTypeMapping TypeName="Model.ScormLearning">
+              <MappingFragment StoreEntitySet="ScormLearning">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModuleId" ColumnName="ModuleId" />
+                <ScalarProperty Name="LaunchData" ColumnName="LaunchData" />
+                <ScalarProperty Name="SuspendData" ColumnName="SuspendData" />
+                <ScalarProperty Name="Exit" ColumnName="Exit" />
+                <ScalarProperty Name="LessonMode" ColumnName="LessonMode" />
+                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+                <ScalarProperty Name="ScoreMax" ColumnName="ScoreMax" />
+                <ScalarProperty Name="ScoreMin" ColumnName="ScoreMin" />
+                <ScalarProperty Name="ScoreRaw" ColumnName="ScoreRaw" />
+                <ScalarProperty Name="ScoreChildren" ColumnName="ScoreChildren" />
+                <ScalarProperty Name="Children" ColumnName="Children" />
+                <ScalarProperty Name="Entry" ColumnName="Entry" />
+                <ScalarProperty Name="LessonStatus" ColumnName="LessonStatus" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="LessonLocation" ColumnName="LessonLocation" />
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScormLearningSessions">
+            <EntityTypeMapping TypeName="Model.ScormLearningSession">
+              <MappingFragment StoreEntitySet="ScormLearningSession">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="SessionTime" ColumnName="SessionTime" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="LearningId" ColumnName="LearningId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VleResources">
+            <EntityTypeMapping TypeName="Model.VleResource">
+              <MappingFragment StoreEntitySet="VleResource">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Disposal" ColumnName="Disposal" />
+                <ScalarProperty Name="RightsCopyright" ColumnName="RightsCopyright" />
+                <ScalarProperty Name="IsFeatured" ColumnName="IsFeatured" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ContentTypeId" ColumnName="ContentTypeId" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="Organisation" ColumnName="Organisation" />
+                <ScalarProperty Name="FeaturedImageKey" ColumnName="FeaturedImageKey" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Directorates">
+            <EntityTypeMapping TypeName="Model.Directorate">
+              <MappingFragment StoreEntitySet="Directorate">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VleResourceTypes">
+            <EntityTypeMapping TypeName="Model.VleResourceType">
+              <MappingFragment StoreEntitySet="VleResourceType">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GlyphIcon" ColumnName="GlyphIcon" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Keywords">
+            <EntityTypeMapping TypeName="Model.Keyword">
+              <MappingFragment StoreEntitySet="Keyword">
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedOn" ColumnName="LastModifiedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="InTrash" ColumnName="InTrash" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

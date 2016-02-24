@@ -26,9 +26,9 @@ namespace VLE_DataLoad
         public bool IsActive { get; set; }
         public bool InTrash { get; set; }
         public System.DateTime CreatedOn { get; set; }
-        public int CreatedBy { get; set; }
         public Nullable<System.DateTime> LastModifiedOn { get; set; }
-        public Nullable<int> LastModifiedBy { get; set; }
+        public System.Guid CreatedBy { get; set; }
+        public Nullable<System.Guid> LastModifiedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ResourceKeyword> ResourceKeywords { get; set; }

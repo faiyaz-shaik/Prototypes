@@ -17,10 +17,11 @@ namespace VLE_DataLoad
         public int Id { get; set; }
         public string Author { get; set; }
         public string AuthorOrganisation { get; set; }
+        public Nullable<System.DateTime> MetaDateItemPublished { get; set; }
     
         public virtual BlobResource BlobResource { get; set; }
-        public virtual VleResource VleResource { get; set; }
         public virtual MarkdownResource MarkdownResource { get; set; }
         public virtual WebResource WebResource { get; set; }
+        public virtual VleResource VleResource { get; set; }
     }
 }

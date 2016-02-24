@@ -25,10 +25,10 @@ namespace VLE_DataLoad
         public bool HideLogo { get; set; }
     
         public virtual ImageResource ImageResource { get; set; }
-        public virtual VleResource VleResource { get; set; }
         public virtual CurriculumResource CurriculumResource { get; set; }
         public virtual EventResource EventResource { get; set; }
         public virtual ProjectResource ProjectResource { get; set; }
+        public virtual VleResource VleResource { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VleResource> VleResources { get; set; }
     }

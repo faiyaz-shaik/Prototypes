@@ -18,6 +18,7 @@ namespace VLE_DataLoad
         public VleResource()
         {
             this.ResourceKeywords = new HashSet<ResourceKeyword>();
+            this.ResourcePermissionGroups = new HashSet<ResourcePermissionGroup>();
             this.ResourceRelations = new HashSet<ResourceRelation>();
             this.ResourceRelations1 = new HashSet<ResourceRelation>();
             this.ResourceTaxonomies = new HashSet<ResourceTaxonomy>();
@@ -36,17 +37,20 @@ namespace VLE_DataLoad
         public bool IsActive { get; set; }
         public bool InTrash { get; set; }
         public System.DateTime CreatedOn { get; set; }
-        public int CreatedBy { get; set; }
         public Nullable<System.DateTime> LastModifiedOn { get; set; }
-        public Nullable<int> LastModifiedBy { get; set; }
         public bool IsFeatured { get; set; }
+        public string RightsCopyright { get; set; }
+        public Nullable<System.DateTime> Disposal { get; set; }
+        public System.Guid CreatedBy { get; set; }
+        public Nullable<System.Guid> LastModifiedBy { get; set; }
     
         public virtual ContentResource ContentResource { get; set; }
         public virtual ContentResource ContentResource1 { get; set; }
-        public virtual Directorate Directorate { get; set; }
         public virtual DocumentResource DocumentResource { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ResourceKeyword> ResourceKeywords { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ResourcePermissionGroup> ResourcePermissionGroups { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ResourceRelation> ResourceRelations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -55,6 +59,7 @@ namespace VLE_DataLoad
         public virtual ICollection<ResourceTaxonomy> ResourceTaxonomies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Status> Status { get; set; }
+        public virtual Directorate Directorate { get; set; }
         public virtual VleResourceType VleResourceType { get; set; }
     }
 }

@@ -18,6 +18,9 @@ namespace VLE_DataLoad
         public string FileName { get; set; }
         public string FileUrl { get; set; }
         public long FileSizeInBytes { get; set; }
+        public string SeriesTitle { get; set; }
+        public string MetaIdentifierDocumentId { get; set; }
+        public string MetaLifecycleVersion { get; set; }
     
         public virtual DocumentResource DocumentResource { get; set; }
         public virtual ImageResource ImageResource { get; set; }

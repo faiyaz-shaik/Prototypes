@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAccessDBWebApp", "TestA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDP.Core", "NDP.Core\NDP.Core.csproj", "{059A46C2-C76B-4E05-96D2-81429C93D808}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGraphAPI1.6", "TestGraphAPI1.6\TestGraphAPI1.6.csproj", "{A6F96FF6-2D0E-4B5D-AE8A-0A8773D32181}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{059A46C2-C76B-4E05-96D2-81429C93D808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{059A46C2-C76B-4E05-96D2-81429C93D808}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{059A46C2-C76B-4E05-96D2-81429C93D808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F96FF6-2D0E-4B5D-AE8A-0A8773D32181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F96FF6-2D0E-4B5D-AE8A-0A8773D32181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F96FF6-2D0E-4B5D-AE8A-0A8773D32181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F96FF6-2D0E-4B5D-AE8A-0A8773D32181}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
