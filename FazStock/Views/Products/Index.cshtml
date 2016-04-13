@@ -1,0 +1,112 @@
+﻿@*@model IEnumerable<FazStock.Models.Product>*@
+@model PagedList.IPagedList<FazStock.Models.Product>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Index</h2>*@
+
+
+@using (Html.BeginForm("Index","Products",FormMethod.Get))
+{
+    <div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-10">
+            Find : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, htmlAttributes: new  { @class = "form-control" })
+            <input class="btn btn-default" type="submit" value="Search" />
+        </div>
+        </div>
+</div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ItemNumber)*@
+            @Html.Label("Item Number")
+           @* @Html.ActionLink("Item Number", "Index", new { sortOrder = ViewBag.ItemNumberSortParm })*@
+
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ItemName)*@
+            @Html.ActionLink("Item Name", "Index", new { sortOrder = ViewBag.ItemNameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.ebayOurPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ebayComptetionPrice)
+        </th>*@
+        @*<th>
+            @Html.DisplayNameFor(model => model.StockLevel)
+        </th>*@
+        @*<th>
+            @Html.DisplayNameFor(model => model.Sold)
+        </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.StockLeft)*@
+            @Html.Label("Stockleft")
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.BestSelling)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.ItemNumber)*@
+            @Html.ActionLink(item.ItemNumber, "Edit", new { id = item.Id })
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.ItemName)*@
+            @Html.ActionLink(item.ItemName, "Details", new { id = item.Id })
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ebayOurPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ebayComptetionPrice)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.StockLevel)
+        </td>*@
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Sold)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.StockLeft)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.BestSelling)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>*@
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            @*@Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>

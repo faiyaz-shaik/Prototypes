@@ -1,0 +1,49 @@
+﻿@model TestProductionB2CApp1.Models.BulkUpload
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Bulk Upload</h2>
+
+@*@using (Html.BeginForm("Upload", "BulkUploadUsers", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+<form id="frmUplaod">
+    <table>
+        <tr>
+            <td>@Html.DisplayNameFor(m => m.Applications) </td>
+            <td> @Html.TextBoxFor(m => m.Applications) @Html.ValidationSummary() </td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(m => m.SecurityRoles)</td>
+            <td> @Html.TextBoxFor(m => m.SecurityRoles) </td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(m => m.PermissionGroups)</td>
+            <td> @Html.TextBoxFor(m => m.PermissionGroups) </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="file" name="upload" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                <input type="submit" value="Upload" />
+
+            </td>
+            <td>
+
+                <input id="btnUpload" type="submit" value="Upload2" />
+
+            </td>
+        </tr>
+    </table>
+</form>
+@*}*@
+
+  
+

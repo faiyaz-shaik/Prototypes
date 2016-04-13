@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="elibModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="p_node">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_state" Type="int" Nullable="false" />
+          <Property Name="id_type" Type="int" Nullable="false" />
+          <Property Name="version" Type="int" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="1024" />
+          <Property Name="cat" Type="bit" />
+          <Property Name="key_res" Type="bit" />
+          <Property Name="created_by" Type="nvarchar" MaxLength="20" />
+          <Property Name="created_date" Type="datetime" />
+          <Property Name="updated_by" Type="nvarchar" MaxLength="20" />
+          <Property Name="updated_date" Type="datetime" />
+          <Property Name="notes" Type="nvarchar" MaxLength="2000" />
+          <Property Name="id_origin" Type="int" Nullable="false" />
+          <Property Name="origin_key" Type="varchar" MaxLength="50" />
+          <Property Name="search_keys" Type="text" />
+          <Property Name="search_types" Type="nvarchar" MaxLength="400" />
+          <Property Name="search_rights" Type="nvarchar" MaxLength="100" />
+          <Property Name="search_rights_display" Type="nvarchar" MaxLength="1000" />
+          <Property Name="search_authentication" Type="nvarchar" MaxLength="100" />
+          <Property Name="search_url" Type="nvarchar" MaxLength="400" />
+          <Property Name="search_holdings" Type="nvarchar" MaxLength="200" />
+          <Property Name="search_provider" Type="nvarchar" MaxLength="100" />
+          <Property Name="search_author" Type="nvarchar" MaxLength="150" />
+          <Property Name="search_editor" Type="nvarchar" MaxLength="500" />
+          <Property Name="alerted_flag" Type="bit" Nullable="false" />
+          <Property Name="order_value" Type="smallint" Nullable="false" />
+          <Property Name="is_la" Type="bit" Nullable="false" />
+          <Property Name="portal_bitmap" Type="int" />
+          <Property Name="key_bitmap" Type="int" />
+          <Property Name="search_alt_title" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="p_node_property">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_node" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="value" Type="nvarchar" MaxLength="2048" Nullable="false" />
+          <Property Name="search_key" Type="nvarchar" MaxLength="400" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="elibModelStoreContainer">
+          <EntitySet Name="p_node" EntityType="Self.p_node" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="p_node_property" EntityType="Self.p_node_property" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="elibModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="p_node">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_state" Type="Int32" Nullable="false" />
+          <Property Name="id_type" Type="Int32" Nullable="false" />
+          <Property Name="version" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="cat" Type="Boolean" />
+          <Property Name="key_res" Type="Boolean" />
+          <Property Name="created_by" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="created_date" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="updated_date" Type="DateTime" Precision="3" />
+          <Property Name="notes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="id_origin" Type="Int32" Nullable="false" />
+          <Property Name="origin_key" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="search_keys" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="search_types" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="search_rights" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="search_rights_display" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="search_authentication" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="search_url" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="search_holdings" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="search_provider" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="search_author" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="search_editor" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="alerted_flag" Type="Boolean" Nullable="false" />
+          <Property Name="order_value" Type="Int16" Nullable="false" />
+          <Property Name="is_la" Type="Boolean" Nullable="false" />
+          <Property Name="portal_bitmap" Type="Int32" />
+          <Property Name="key_bitmap" Type="Int32" />
+          <Property Name="search_alt_title" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="p_node_property">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_node" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="value" Type="String" MaxLength="2048" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="search_key" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="elibEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="p_node" EntityType="Self.p_node" />
+          <EntitySet Name="p_node_property" EntityType="Self.p_node_property" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="elibModelStoreContainer" CdmEntityContainer="elibEntities">
+          <EntitySetMapping Name="p_node">
+            <EntityTypeMapping TypeName="elibModel.p_node">
+              <MappingFragment StoreEntitySet="p_node">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_state" ColumnName="id_state" />
+                <ScalarProperty Name="id_type" ColumnName="id_type" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="cat" ColumnName="cat" />
+                <ScalarProperty Name="key_res" ColumnName="key_res" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_date" ColumnName="updated_date" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+                <ScalarProperty Name="id_origin" ColumnName="id_origin" />
+                <ScalarProperty Name="origin_key" ColumnName="origin_key" />
+                <ScalarProperty Name="search_keys" ColumnName="search_keys" />
+                <ScalarProperty Name="search_types" ColumnName="search_types" />
+                <ScalarProperty Name="search_rights" ColumnName="search_rights" />
+                <ScalarProperty Name="search_rights_display" ColumnName="search_rights_display" />
+                <ScalarProperty Name="search_authentication" ColumnName="search_authentication" />
+                <ScalarProperty Name="search_url" ColumnName="search_url" />
+                <ScalarProperty Name="search_holdings" ColumnName="search_holdings" />
+                <ScalarProperty Name="search_provider" ColumnName="search_provider" />
+                <ScalarProperty Name="search_author" ColumnName="search_author" />
+                <ScalarProperty Name="search_editor" ColumnName="search_editor" />
+                <ScalarProperty Name="alerted_flag" ColumnName="alerted_flag" />
+                <ScalarProperty Name="order_value" ColumnName="order_value" />
+                <ScalarProperty Name="is_la" ColumnName="is_la" />
+                <ScalarProperty Name="portal_bitmap" ColumnName="portal_bitmap" />
+                <ScalarProperty Name="key_bitmap" ColumnName="key_bitmap" />
+                <ScalarProperty Name="search_alt_title" ColumnName="search_alt_title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="p_node_property">
+            <EntityTypeMapping TypeName="elibModel.p_node_property">
+              <MappingFragment StoreEntitySet="p_node_property">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_node" ColumnName="id_node" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="search_key" ColumnName="search_key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
